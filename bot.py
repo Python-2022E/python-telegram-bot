@@ -12,7 +12,7 @@ def echo(update, context):
     text = update.message.text
     bot = context.bot
 
-    bot.sendMessage(chat_id, text)
+    bot.sendMessage(chat_id, f"LIKE 5: 👍 DISLIKE 5: 👎")
 
 updater = Updater("5559122728:AAERqDDQSGzmbuY0jZklQBawNd3Bt0m5xqc")
 
