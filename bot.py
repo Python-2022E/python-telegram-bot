@@ -1,6 +1,5 @@
-from email import message
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-
+import json
 def start(update, context):
     chat_id = update.message.chat.id
     bot = context.bot
@@ -12,7 +11,26 @@ def echo(update, context):
     text = update.message.text
     bot = context.bot
 
-    bot.sendMessage(chat_id, f"LIKE 5: 👍 DISLIKE 5: 👎")
+    f = open('like_dislike.json', 'r').read()
+    data = json.loads(f)
+
+    like = data.get('LIKE')
+    dislike = data.get('DISLIKE')
+
+    if text == '👍':
+        like += 1
+
+    if text == '👎':
+        dislike += 1
+
+    data['LIKE'] = like
+    data['DISLIKE'] = dislike
+    data = json.dumps(data)
+    print(data)
+    f = open('like_dislike.json','w')
+    f.write(data)
+    f.close()
+    bot.sendMessage(chat_id, f"👍 - {like}\n\n👎 - {dislike}")
 
 updater = Updater("5559122728:AAERqDDQSGzmbuY0jZklQBawNd3Bt0m5xqc")
 
