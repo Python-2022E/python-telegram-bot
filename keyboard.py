@@ -36,20 +36,28 @@ def inlinekeyboard(update, context):
     chat_id = update.message.chat.id
     text = update.message.text
     bot = context.bot
-    botton = InlineKeyboardButton(text='Your Channel', callback_data='channel_link_callback',url='https://www.codeschool.uz/')
-    keyboard = InlineKeyboardMarkup([[botton]])
-
-    bot.sendMessage(chat_id, text, reply_markup = keyboard)
+    like = InlineKeyboardButton(
+        text='👍', 
+        callback_data='like'
+        )
+    dislike = InlineKeyboardButton(
+        text='👎', 
+        callback_data='dislike')
+    keyboard = InlineKeyboardMarkup([[like, dislike]])
+    photo='https://www.simplilearn.com/ice9/free_resources_article_thumb/Types_of_Artificial_Intelligence.jpg'
+    
+    bot.sendPhoto(chat_id, photo=photo, reply_markup = keyboard)
 
 def callback_inline(update, context):
-    callback = update.callback_query
-    callback_data = callback.message.reply_markup.inline_keyboard[0][0].callback_data
-    print(callback_data)
+    query = update.callback_query
+    callback_data = query.message.reply_markup.inline_keyboard[0]
+    print(callback_data[0],callback_data[1])
+    query.answer(text='Done! ✅')
 updater = Updater("5559122728:AAERqDDQSGzmbuY0jZklQBawNd3Bt0m5xqc")
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(MessageHandler(Filters.text('Inline'), inlinekeyboard))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, echo))
-updater.dispatcher.add_handler(CallbackQueryHandler(callback_inline))
+updater.dispatcher.add_handler(CallbackQueryHandler(callback_inline,pattern='like'))
 updater.start_polling()
 updater.idle()
