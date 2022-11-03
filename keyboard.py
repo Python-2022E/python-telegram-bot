@@ -6,6 +6,7 @@ from telegram.ext import (
     InlineQueryHandler,
     CallbackQueryHandler
 )
+from pprint import pprint
 import json
 from telegram import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 def start(update, context):
@@ -35,13 +36,15 @@ def inlinekeyboard(update, context):
     chat_id = update.message.chat.id
     text = update.message.text
     bot = context.bot
-    botton = InlineKeyboardButton(text='Your Channel', callback_data='channel_link')
+    botton = InlineKeyboardButton(text='Your Channel', callback_data='channel_link_callback')
     keyboard = InlineKeyboardMarkup([[botton]])
 
     bot.sendMessage(chat_id, text, reply_markup = keyboard)
 
 def callback_inline(update, context):
-    print('INLINE')
+    callback = update.callback_query
+    callback_data = callback.message.reply_markup.inline_keyboard[0][0].callback_data
+    print(callback_data)
 updater = Updater("5559122728:AAERqDDQSGzmbuY0jZklQBawNd3Bt0m5xqc")
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
