@@ -36,7 +36,7 @@ def inlinekeyboard(update, context):
     chat_id = update.message.chat.id
     text = update.message.text
     bot = context.bot
-    botton = InlineKeyboardButton(text='Your Channel', callback_data='channel_link_callback')
+    botton = InlineKeyboardButton(text='Your Channel', callback_data='channel_link_callback',url='https://www.codeschool.uz/')
     keyboard = InlineKeyboardMarkup([[botton]])
 
     bot.sendMessage(chat_id, text, reply_markup = keyboard)
